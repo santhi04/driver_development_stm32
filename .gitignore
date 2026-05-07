@@ -1,0 +1,30 @@
+# =========================================================
+# STM32CubeIDE Empty Project
+# =========================================================
+
+# Build output folders
+Debug/
+Release/
+
+# Object and binary files
+*.o
+*.d
+*.su
+*.elf
+*.bin
+*.hex
+*.map
+*.list
+
+# Eclipse metadata
+.metadata/
+
+# Temporary/editor files
+*.tmp
+*.bak
+*.log
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
