@@ -5,9 +5,11 @@
  *      Author: NikhilaPantham
  */
 
+#include <stdint.h>
+
 #ifndef INC_STM32F401XX_H_
 #define INC_STM32F401XX_H_
-#include <stdint.h>
+
 
 /* base addresses of Flash, SRAM and ROM memories */
 
@@ -37,6 +39,7 @@
 #define FIR_BASEADDR     0x40023C00U
 #define DMA1_BASEADDR    0x40026000U
 #define DMA2_BASEADDR    0x40026400U
+#define RCC_BASEADDR     (AHB1_PERIPHERAL_BASEADDR + 0x3800)
 
 /* Base addresses of peripherals on APB1  bus*/
 
@@ -60,17 +63,59 @@
 
 typedef struct
 {
-   uint32_t MODER;
-   uint32_t OTYPER;
-   uint32_t OSPEEDR;
-   uint32_t PUPDR;
-   uint32_t IDR;
-   uint32_t ODR;
-   uint32_t BSRR;
-   uint32_t LCKR;
-   uint32_t AFR[2];
+   volatile uint32_t MODER;       /* Address offset 0x00*/
+   volatile uint32_t OTYPER;      /* Address offset 0x04*/
+   volatile uint32_t OSPEEDR;     /* Address offset 0x08*/
+   volatile uint32_t PUPDR;       /* Address offset 0x0C*/
+   volatile uint32_t IDR;         /* Address offset 0x10*/
+   volatile uint32_t ODR;         /* Address offset 0x14*/
+   volatile uint32_t BSRR;        /* Address offset 0x18*/
+   volatile uint32_t LCKR;        /* Address offset 0x1C*/
+   volatile uint32_t AFR[2];      /* Address offset 0x20*/
 }GPIO_reg_def_t;
 
+typedef struct 
+{
+   volatile uint32_t RCC_CR;         /* Address offset 0x00*/
+   volatile uint32_t RCC_PLLCFGR;    /* Address offset 0x04*/
+   volatile uint32_t RCC_CFGR;       /* Address offset 0x08*/
+   volatile uint32_t RCC_CIR;        /* Address offset 0x0C*/
+   volatile uint32_t RCC_AHB1RSTR;   /* Address offset 0x10*/
+   volatile uint32_t RCC_AHB2RSTR;   /* Address offset 0x14*/
+   uint32_t RESERVED0[2];            /* Address offset 0x18*/
+   volatile uint32_t RCC_APB1RSTR;   /* Address offset 0x20*/ 
+   volatile uint32_t RCC_APB2RSTR;   /* Address offset 0x24*/
+   uint32_t RESERVED1[2]             /* Address offset 0x28*/
+   volatile uint32_t RCC_AHB1ENR;    /* Address offset 0x30*/
+   volatile uint32_t RCC_AHB2ENR;    /* Address offset 0x34*/
+   uint32_t RESERVED2[2]             /* Address offset 0x38*/
+   volatile uint32_t RCC_APB1ENR;    /* Address offset 0x40*/
+   volatile uint32_t RCC_APB2ENR;    /* Address offset 0x44*/
+   uint32_t RESERVED3[2]             /* Address offset 0x48*/
+   volatile uint32_t RCC_AHB1LPENR;  /* Address offset 0x50*/
+   volatile uint32_t RCC_AHB2LPENR;  /* Address offset 0x54*/
+   uint32_t RESERVED4[2]             /* Address offset 0x58*/
+   volatile uint32_t RCC_APB1LPENR;  /* Address offset 0x60*/
+   volatile uint32_t RCC_APB2LPENR;  /* Address offset 0x64*/
+   uint32_t RESERVED5[2]             /* Address offset 0x68*/
+   volatile uint32_t RCC_BDCR;       /* Address offset 0x70*/
+   volatile uint32_t RCC_CSR;        /* Address offset 0x74*/
+   uint32_t RESERVED6[2]             /* Address offset 0x78*/
+   volatile uint32_t RCC_SSCGR;      /* Address offset 0x80*/
+   volatile uint32_t RCC_PLLI2SCFGR; /* Address offset 0x84*/
+   uint32_t RESERVED7                /* Address offset 0x88*/
+   volatile uint32_t RCC_DCKCFGR;    /* Address offset 0x8C*/
+} RCC_reg_def_t;
 
+/* peripheral definitions of the base addresses*/
+
+#define GPIOA  ((GPIO_reg_def_t*)GPIOA_BASEADDR)
+#define GPIOB  ((GPIO_reg_def_t*)GPIOB_BASEADDR)
+#define GPIOC  ((GPIO_reg_def_t*)GPIOC_BASEADDR)
+#define GPIOD  ((GPIO_reg_def_t*)GPIOD_BASEADDR)
+#define GPIOE  ((GPIO_reg_def_t*)GPIOE_BASEADDR)
+#define GPIOH  ((GPIO_reg_def_t*)GPIOH_BASEADDR)
+
+#define RCC    ((RCC_reg_def_t*)RCC_BASEADDR)
 
 #endif /* INC_STM32F401XX_H_ */
