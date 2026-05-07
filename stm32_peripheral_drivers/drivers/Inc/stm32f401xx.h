@@ -85,25 +85,25 @@ typedef struct
    uint32_t RESERVED0[2];            /* Address offset 0x18*/
    volatile uint32_t RCC_APB1RSTR;   /* Address offset 0x20*/ 
    volatile uint32_t RCC_APB2RSTR;   /* Address offset 0x24*/
-   uint32_t RESERVED1[2]             /* Address offset 0x28*/
+   uint32_t RESERVED1[2];             /* Address offset 0x28*/
    volatile uint32_t RCC_AHB1ENR;    /* Address offset 0x30*/
    volatile uint32_t RCC_AHB2ENR;    /* Address offset 0x34*/
-   uint32_t RESERVED2[2]             /* Address offset 0x38*/
+   uint32_t RESERVED2[2];             /* Address offset 0x38*/
    volatile uint32_t RCC_APB1ENR;    /* Address offset 0x40*/
    volatile uint32_t RCC_APB2ENR;    /* Address offset 0x44*/
-   uint32_t RESERVED3[2]             /* Address offset 0x48*/
+   uint32_t RESERVED3[2];             /* Address offset 0x48*/
    volatile uint32_t RCC_AHB1LPENR;  /* Address offset 0x50*/
    volatile uint32_t RCC_AHB2LPENR;  /* Address offset 0x54*/
-   uint32_t RESERVED4[2]             /* Address offset 0x58*/
+   uint32_t RESERVED4[2];             /* Address offset 0x58*/
    volatile uint32_t RCC_APB1LPENR;  /* Address offset 0x60*/
    volatile uint32_t RCC_APB2LPENR;  /* Address offset 0x64*/
-   uint32_t RESERVED5[2]             /* Address offset 0x68*/
+   uint32_t RESERVED5[2];             /* Address offset 0x68*/
    volatile uint32_t RCC_BDCR;       /* Address offset 0x70*/
    volatile uint32_t RCC_CSR;        /* Address offset 0x74*/
-   uint32_t RESERVED6[2]             /* Address offset 0x78*/
+   uint32_t RESERVED6[2];             /* Address offset 0x78*/
    volatile uint32_t RCC_SSCGR;      /* Address offset 0x80*/
    volatile uint32_t RCC_PLLI2SCFGR; /* Address offset 0x84*/
-   uint32_t RESERVED7                /* Address offset 0x88*/
+   uint32_t RESERVED7;                /* Address offset 0x88*/
    volatile uint32_t RCC_DCKCFGR;    /* Address offset 0x8C*/
 } RCC_reg_def_t;
 
