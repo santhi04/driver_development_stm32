@@ -1,0 +1,76 @@
+/*
+ * stm32f401xx.h
+ *
+ *  Created on: 7 May 2026
+ *      Author: NikhilaPantham
+ */
+
+#ifndef INC_STM32F401XX_H_
+#define INC_STM32F401XX_H_
+#include <stdint.h>
+
+/* base addresses of Flash, SRAM and ROM memories */
+
+#define FLASH_BASEADDR  0x08000000U
+#define SRAM1_BASEADDR  0x20000000U
+#define ROM_BASEADDR    0x1FFF0000U
+#define SRAM            SRAM1_BASEADDR
+
+/* AHBx and APBx Bus peripheral addresses*/
+
+#define PERIPHERAL_BASEADDR         0x40000000U
+#define APB1_PERIPHERAL_BASEADDR    PERIPHERAL_BASEADDR
+#define APB2_PERIPHERAL_BASEADDR    0x40010000U
+#define AHB1_PERIPHERAL_BASEADDR    0x40020000U
+#define AHB2_PERIPHERAL_BASEADDR    0x50000000U
+
+/* Base addresses of peripherals on AHB1 bus */
+
+#define GPIOA_BASEADDR   0x40020000U
+#define GPIOB_BASEADDR   0x40020400U
+#define GPIOC_BASEADDR   0x40020800U
+#define GPIOD_BASEADDR   0x40020C00U
+#define GPIOE_BASEADDR   0x40021000U
+#define GPIOH_BASEADDR   0x40021C00U
+#define CRC_BASEADDR     0x40023000U
+#define RCC_BASEADDR     0x40023800U
+#define FIR_BASEADDR     0x40023C00U
+#define DMA1_BASEADDR    0x40026000U
+#define DMA2_BASEADDR    0x40026400U
+
+/* Base addresses of peripherals on APB1  bus*/
+
+#define SPI2_BASEADDR    (APB1_PERIPHERAL_BASEADDR + 0x3800)
+#define SPI3_BASEADDR    (APB1_PERIPHERAL_BASEADDR + 0x3C00)
+#define USART2_BASEADDR  (APB1_PERIPHERAL_BASEADDR + 0x4400)
+#define I2C1_BASEADDR    (APB1_PERIPHERAL_BASEADDR + 0x5400)
+#define I2C2_BASEADDR    (APB1_PERIPHERAL_BASEADDR + 0x5800)
+#define I2C3_BASEADDR    (APB1_PERIPHERAL_BASEADDR + 0x5C00)
+
+/* Base addresses of peripherals on APB1  bus*/
+#define USART1_BASEADDR  (APB2_PERIPHERAL_BASEADDR + 0x1000)
+#define USART6_BASEADDR  (APB2_PERIPHERAL_BASEADDR + 0x1400)
+#define SPI1_BASEADDR    (APB2_PERIPHERAL_BASEADDR + 0x3000)
+#define SPI4_BASEADDR    (APB2_PERIPHERAL_BASEADDR + 0x3400)
+#define SYSCFG_BASEADDR  (APB2_PERIPHERAL_BASEADDR + 0x3800)
+#define EXTI_BASEADDR    (APB2_PERIPHERAL_BASEADDR + 0x3C00)
+
+
+/* peripheral registers addresses*/
+
+typedef struct
+{
+   uint32_t MODER;
+   uint32_t OTYPER;
+   uint32_t OSPEEDR;
+   uint32_t PUPDR;
+   uint32_t IDR;
+   uint32_t ODR;
+   uint32_t BSRR;
+   uint32_t LCKR;
+   uint32_t AFR[2];
+}GPIO_reg_def_t;
+
+
+
+#endif /* INC_STM32F401XX_H_ */
