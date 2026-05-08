@@ -71,6 +71,7 @@ void gpio_pclk_ctrl(gpio_reg_def_t *gpiox_base_addr, uint8_t enordi)
  */
 void gpio_init(gpiox_handle_t *gpiox_handle)
 {
+    
 
 }
 
