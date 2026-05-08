@@ -71,7 +71,7 @@ typedef struct
    volatile uint32_t BSRR;        /* Address offset 0x18*/
    volatile uint32_t LCKR;        /* Address offset 0x1C*/
    volatile uint32_t AFR[2];      /* Address offset 0x20*/
-}GPIO_reg_def_t;
+}gpio_reg_def_t;
 
 typedef struct 
 {
@@ -104,18 +104,18 @@ typedef struct
    volatile uint32_t RCC_PLLI2SCFGR; /* Address offset 0x84*/
    uint32_t RESERVED7;                /* Address offset 0x88*/
    volatile uint32_t RCC_DCKCFGR;    /* Address offset 0x8C*/
-} RCC_reg_def_t;
+} rcc_reg_def_t;
 
 /* peripheral definitions of the base addresses*/
 
-#define GPIOA  ((GPIO_reg_def_t*)GPIOA_BASEADDR)
-#define GPIOB  ((GPIO_reg_def_t*)GPIOB_BASEADDR)
-#define GPIOC  ((GPIO_reg_def_t*)GPIOC_BASEADDR)
-#define GPIOD  ((GPIO_reg_def_t*)GPIOD_BASEADDR)
-#define GPIOE  ((GPIO_reg_def_t*)GPIOE_BASEADDR)
-#define GPIOH  ((GPIO_reg_def_t*)GPIOH_BASEADDR)
+#define GPIOA  ((gpio_reg_def_t*)GPIOA_BASEADDR)
+#define GPIOB  ((gpio_reg_def_t*)GPIOB_BASEADDR)
+#define GPIOC  ((gpio_reg_def_t*)GPIOC_BASEADDR)
+#define GPIOD  ((gpio_reg_def_t*)GPIOD_BASEADDR)
+#define GPIOE  ((gpio_reg_def_t*)GPIOE_BASEADDR)
+#define GPIOH  ((gpio_reg_def_t*)GPIOH_BASEADDR)
 
-#define RCC    ((RCC_reg_def_t*)RCC_BASEADDR)
+#define RCC    ((rcc_reg_def_t*)RCC_BASEADDR)
 
 /* Clock Enable Macros for GPIOx peripherals*/
 
@@ -173,6 +173,13 @@ typedef struct
 #define USART1_PCLK_DI()      ( RCC->RCC_APB2ENR &= ~(1 << 4) )
 #define USART2_PCLK_DI()      ( RCC->RCC_APB1ENR &= ~(1 << 17) )
 #define USART6_PCLK_DI()      ( RCC->RCC_APB2ENR &= ~(1 << 5) )
+
+#define ENABLE           1
+#define DISABLE          0
+#define SET              ENABLE
+#define RESET            DISABLE
+#define GPIO_PIN_SET     SET
+#define GPIO_PIN_RESET   RESET
 
 
 #endif /* INC_STM32F401XX_H_ */
