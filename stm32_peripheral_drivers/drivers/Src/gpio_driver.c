@@ -76,7 +76,7 @@ void gpio_init(gpiox_handle_t *gpiox_handle)
   if(gpiox_handle->gpio_pin_config.gpiox_pin_mode <= GPIO_MODE_ANALOG)
   {
     pin_config_position = gpiox_handle->gpio_pin_config.gpiox_pin_mode << (2 * gpiox_handle->gpio_pin_config.gpiox_pin_number);
-    gpiox_handle->gpiox_base_addr->MODER &= ~(0x03 << gpiox_handle->gpio_pin_config.gpiox_pin_number);
+    gpiox_handle->gpiox_base_addr->MODER &= ~(0x3 << gpiox_handle->gpio_pin_config.gpiox_pin_number);
     gpiox_handle->gpiox_base_addr->MODER |= pin_config_position;
   }
   else
@@ -88,13 +88,13 @@ void gpio_init(gpiox_handle_t *gpiox_handle)
 
   /* configure the speed of the pin*/
   pin_config_position = gpiox_handle->gpio_pin_config.gpiox_pin_speed << (2 * gpiox_handle->gpio_pin_config.gpiox_pin_number);
-  gpiox_handle->gpiox_base_addr->OSPEEDR &= ~(0x03 << gpiox_handle->gpio_pin_config.gpiox_pin_number);
+  gpiox_handle->gpiox_base_addr->OSPEEDR &= ~(0x3 << gpiox_handle->gpio_pin_config.gpiox_pin_number);
   gpiox_handle->gpiox_base_addr->OSPEEDR |= pin_config_position;
   pin_config_position = 0; //clear the pin config position.
 
   /* configure the pupd config of the pin*/
   pin_config_position = gpiox_handle->gpio_pin_config.gpiox_pin_pupd_ctrl << (2 * gpiox_handle->gpio_pin_config.gpiox_pin_number);
-  gpiox_handle->gpiox_base_addr->PUPDR &= ~(0x03 << gpiox_handle->gpio_pin_config.gpiox_pin_number);
+  gpiox_handle->gpiox_base_addr->PUPDR &= ~(0x3 << gpiox_handle->gpio_pin_config.gpiox_pin_number);
   gpiox_handle->gpiox_base_addr->PUPDR |= pin_config_position;
   pin_config_position = 0; //clear the pin config position.
 
