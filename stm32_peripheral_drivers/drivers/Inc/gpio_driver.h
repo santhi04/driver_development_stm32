@@ -14,12 +14,12 @@
 
 typedef struct 
 {
-    uint8_t gpiox_pin_number;       /* specifies the GPIO pin number*/
-    uint8_t gpiox_pin_mode;         /* specifies the mode of the GPIO pin*/
-    uint8_t gpiox_pin_speed;        /* specifies the operating speed of the pin*/
-    uint8_t gpiox_pin_pupd_ctrl;    /* specifies if the pin is in push or pull config*/
-    uint8_t gpio_pin_OPtype;
-    uint8_t gpio_pin_altfun_mode;   /* specifies the alternate function mode of the pin*/
+    uint8_t gpiox_pin_number;       /* specifies the GPIO pin number @GPIO_PIN_NUMBERS*/
+    uint8_t gpiox_pin_mode;         /* specifies the mode of the GPIO pin @GPIO_PIN_MODES*/
+    uint8_t gpiox_pin_speed;        /* specifies the operating speed of the pin* @GPIO_PIN_SPEED */
+    uint8_t gpiox_pin_pupd_ctrl;    /* specifies if the pin is in push or pull config @GPIO_PIN_PUPD_CONFIG*/
+    uint8_t gpiox_pin_optype;        /* specifies the out put type of the pin @GPIO_PIN_OPT*/
+    uint8_t gpiox_pin_altfun_mode;   /* specifies the alternate function mode of the pin*/
 } gpiox_pin_config_t;
 
 typedef struct 
@@ -28,26 +28,61 @@ typedef struct
     gpiox_pin_config_t gpio_pin_config;   /* GPIO pin configuration settings*/
 } gpiox_handle_t;
 
-/* GPIO modes*/
+/*
+ *@GPIO_PIN_NUMBERS
+ *GPIO pin numbers
+ */
+
+ #define GPIO_PIN_NO_0     0
+ #define GPIO_PIN_NO_1     1
+ #define GPIO_PIN_NO_2     2
+ #define GPIO_PIN_NO_3     3
+ #define GPIO_PIN_NO_4     4
+ #define GPIO_PIN_NO_5     5
+ #define GPIO_PIN_NO_6     6
+ #define GPIO_PIN_NO_7     7
+ #define GPIO_PIN_NO_8     8
+ #define GPIO_PIN_NO_9     9
+ #define GPIO_PIN_NO_10    10
+ #define GPIO_PIN_NO_11    11
+ #define GPIO_PIN_NO_12    12
+ #define GPIO_PIN_NO_13    13
+ #define GPIO_PIN_NO_14    14
+ #define GPIO_PIN_NO_15    15
+
+/*
+ * @GPIO_PIN_MODES
+ * GPIO modes
+ */
 #define GPIO_MODE_INPUT    0
 #define GPIO_MODE_OUTPUT   1
 #define GPIO_MODE_ALTFUN   2
 #define GPIO_MODE_ANALOG   3
+/* Interrupt modes*/
 #define GPIO_MODE_IT_FT    4
 #define GPIO_MODE_IT_RT    5
 #define GPIO_MODE_IT_RFT   6
 
-/* GPIO out pu type */
+/*
+ * @GPIO_PIN_OPT
+ * GPIO out put type
+ */
 #define GPIO_OP_TYPE_PP    0
 #define GPIO_OP_TYPE_OD    1
 
-/* GPIO pin output speeds */
+/*
+ * @GPIO_PIN_SPEED
+ * GPIO pin speed
+ */
 #define GPIO_SPEED_LOW     0
 #define GPIO_SPEED_MEDIUM  1
 #define GPIO_SPEED_FAST    2
 #define GPIO_SPEED_HIGH    3
 
-/* GPIO pin pull up and pull down config macros */
+/*
+ * @GPIO_PIN_PUPD_CONFIG
+ * GPIO pull up pull down config macros
+ */
 #define GPIO_NP_PU_PD      0
 #define GPIO_PULL_UP       1
 #define GPIO_PULL_DOWN     2
