@@ -174,6 +174,37 @@ typedef struct
 #define USART2_PCLK_DI()      ( RCC->RCC_APB1ENR &= ~(1 << 17) )
 #define USART6_PCLK_DI()      ( RCC->RCC_APB2ENR &= ~(1 << 5) )
 
+/* set the reset flags to reset the peripherals and then clear them again.*/
+
+/* reset Macros for GPIOx peripherals*/
+
+#define GPIOA_REG_RESET()      do {( RCC->RCC_AHB1RSTR |= (1 << 0) ); ( RCC->RCC_AHB1RSTR &= ~(1 << 0) ); } while(0)
+#define GPIOB_REG_RESET()      do {( RCC->RCC_AHB1RSTR |= (1 << 1) ); ( RCC->RCC_AHB1RSTR &= ~(1 << 1) ); } while(0)
+#define GPIOC_REG_RESET()      do {( RCC->RCC_AHB1RSTR |= (1 << 2) ); ( RCC->RCC_AHB1RSTR &= ~(1 << 2) ); } while(0)
+#define GPIOD_REG_RESET()      do {( RCC->RCC_AHB1RSTR |= (1 << 3) ); ( RCC->RCC_AHB1RSTR &= ~(1 << 3) ); } while(0)
+#define GPIOE_REG_RESET()      do {( RCC->RCC_AHB1RSTR |= (1 << 4) ); ( RCC->RCC_AHB1RSTR &= ~(1 << 4) ); } while(0)
+#define GPIOH_REG_RESET()      do {( RCC->RCC_AHB1RSTR |= (1 << 7) ); ( RCC->RCC_AHB1RSTR &= ~(1 << 7) ); } while(0)
+
+
+/* reset Macros for I2Cx peripherals*/
+
+#define I2C1_REG_RESET()      do {( RCC->RCC_APB1RSTR |= (1 << 21) ); ( RCC->RCC_APB1RSTR &= ~(1 << 21) ) } while(0)
+#define I2C2_REG_RESET()      do {( RCC->RCC_APB1RSTR |= (1 << 22) ); ( RCC->RCC_APB1RSTR &= ~(1 << 22) ) } while(0)
+#define I2C3_REG_RESET()      do {( RCC->RCC_APB1RSTR |= (1 << 23) ); ( RCC->RCC_APB1RSTR &= ~(1 << 23) ) } while(0)
+
+/* reset Macros for SPIx peripherals*/
+
+#define SPI1_REG_RESET()      do {( RCC->RCC_APB2RSTR |= (1 << 12) ); ( RCC->RCC_AHB1RSTR &= ~(1 << 12) ) } while(0)
+#define SPI2_REG_RESET()      do {( RCC->RCC_APB1RSTR |= (1 << 14) ); ( RCC->RCC_AHB1RSTR &= ~(1 << 14) ) } while(0)
+#define SPI3_REG_RESET()      do {( RCC->RCC_APB1RSTR |= (1 << 15) ); ( RCC->RCC_AHB1RSTR &= ~(1 << 15) ) } while(0)
+#define SPI4_REG_RESET()      do {( RCC->RCC_APB2RSTR |= (1 << 13) ); ( RCC->RCC_AHB1RSTR &= ~(1 << 13) ) } while(0)
+
+/* reset Macros for USARTx peripherals*/
+
+#define USART1_REG_RESET()      do {( RCC->RCC_APB1RSTR |= (1 << 4) ); ( RCC->RCC_APB1RSTR &= ~(1 << 4) ) } while(0)
+#define USART2_REG_RESET()      do {( RCC->RCC_APB1RSTR |= (1 << 17) ); ( RCC->RCC_APB1RSTR &= ~(1 << 17) ) } while(0)
+#define USART6_REG_RESET()      do {( RCC->RCC_APB1RSTR |= (1 << 5) ); ( RCC->RCC_APB1RSTR &= ~(1 << 5) ) } while(0)
+
 #define ENABLE           1
 #define DISABLE          0
 #define SET              ENABLE
