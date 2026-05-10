@@ -71,7 +71,48 @@ void gpio_pclk_ctrl(gpio_reg_def_t *gpiox_base_addr, uint8_t enordi)
  */
 void gpio_init(gpiox_handle_t *gpiox_handle)
 {
-    
+  uint32_t pin_config_position = 0;
+    /* configure the mode of the pin*/
+  if(gpiox_handle->gpio_pin_config.gpiox_pin_mode <= GPIO_MODE_ANALOG)
+  {
+    pin_config_position = gpiox_handle->gpio_pin_config.gpiox_pin_mode << (2 * gpiox_handle->gpio_pin_config.gpiox_pin_number);
+    gpiox_handle->gpiox_base_addr->MODER &= ~(0x03 << gpiox_handle->gpio_pin_config.gpiox_pin_number);
+    gpiox_handle->gpiox_base_addr->MODER |= pin_config_position;
+  }
+  else
+  {
+    // interrupt pin modes.
+  }
+
+  pin_config_position = 0;//clear the pin config position.
+
+  /* configure the speed of the pin*/
+  pin_config_position = gpiox_handle->gpio_pin_config.gpiox_pin_speed << (2 * gpiox_handle->gpio_pin_config.gpiox_pin_number);
+  gpiox_handle->gpiox_base_addr->OSPEEDR &= ~(0x03 << gpiox_handle->gpio_pin_config.gpiox_pin_number);
+  gpiox_handle->gpiox_base_addr->OSPEEDR |= pin_config_position;
+  pin_config_position = 0; //clear the pin config position.
+
+  /* configure the pupd config of the pin*/
+  pin_config_position = gpiox_handle->gpio_pin_config.gpiox_pin_pupd_ctrl << (2 * gpiox_handle->gpio_pin_config.gpiox_pin_number);
+  gpiox_handle->gpiox_base_addr->PUPDR &= ~(0x03 << gpiox_handle->gpio_pin_config.gpiox_pin_number);
+  gpiox_handle->gpiox_base_addr->PUPDR |= pin_config_position;
+  pin_config_position = 0; //clear the pin config position.
+
+  /* configure the out type of the pin*/
+  pin_config_position = gpiox_handle->gpio_pin_config.gpiox_pin_optype << ( gpiox_handle->gpio_pin_config.gpiox_pin_number);
+  gpiox_handle->gpiox_base_addr->OTYPER &= ~(1 << gpiox_handle->gpio_pin_config.gpiox_pin_number);
+  gpiox_handle->gpiox_base_addr->OTYPER |= pin_config_position;
+  pin_config_position = 0; //clear the pin config position.
+
+  /* configure the alternate functionality of the pin*/
+  if(gpiox_handle->gpio_pin_config.gpiox_pin_mode <= GPIO_MODE_ALTFUN)
+  {
+    uint32_t afr_pos, afr_bit_pos = 0;
+    afr_pos = gpiox_handle->gpio_pin_config.gpiox_pin_number / 8;
+    afr_bit_pos = gpiox_handle->gpio_pin_config.gpiox_pin_number % 8;
+    gpiox_handle->gpiox_base_addr->AFR[afr_pos] &= ~(0xF << (4 * afr_bit_pos));
+    gpiox_handle->gpiox_base_addr->AFR[afr_pos] |= gpiox_handle->gpio_pin_config.gpiox_pin_altfun_mode << (4 * afr_bit_pos);
+  }
 
 }
 
@@ -90,6 +131,19 @@ void gpio_init(gpiox_handle_t *gpiox_handle)
  */
 void gpio_deinit(gpio_reg_def_t *gpiox_base_addr)
 {
+  if (gpiox_base_addr == GPIOA) {
+      GPIOA_REG_RESET();
+    } else if (gpiox_base_addr == GPIOB) {
+      GPIOB_REG_RESET();
+    } else if (gpiox_base_addr == GPIOC) {
+      GPIOC_REG_RESET();
+    } else if (gpiox_base_addr == GPIOD) {
+      GPIOD_REG_RESET();
+    } else if (gpiox_base_addr == GPIOE) {
+      GPIOE_REG_RESET();
+    } else if (gpiox_base_addr == GPIOH) {
+      GPIOH_REG_RESET();
+    }
 
 }
 
@@ -109,7 +163,9 @@ void gpio_deinit(gpio_reg_def_t *gpiox_base_addr)
  */
 uint8_t gpio_read_pin(gpio_reg_def_t *gpiox_base_addr, uint8_t pin)
 {
-
+  uint8_t value = 0;
+  value = (uint8_t)((gpiox_base_addr->IDR >> pin) & 0x00000001 );
+  return value;
 }
 
 /*****************************************************************
@@ -127,7 +183,9 @@ uint8_t gpio_read_pin(gpio_reg_def_t *gpiox_base_addr, uint8_t pin)
  */
 uint16_t gpio_read_port(gpio_reg_def_t *gpiox_base_addr)
 {
-
+  uint16_t value = 0;
+  value = (uint16_t)(gpiox_base_addr->IDR);
+  return value;
 }
 
 /*****************************************************************
@@ -147,6 +205,14 @@ uint16_t gpio_read_port(gpio_reg_def_t *gpiox_base_addr)
  */
 void gpio_write_pin(gpio_reg_def_t *gpiox_base_addr, uint8_t pin, uint8_t value)
 {
+  if(value == GPIO_PIN_SET)
+  {
+    gpiox_base_addr->ODR |= (1 << pin);
+  }
+  else if(value == GPIO_PIN_RESET)
+  {
+    gpiox_base_addr->ODR &= ~(1 << pin);
+  }
 
 }
 
@@ -166,7 +232,7 @@ void gpio_write_pin(gpio_reg_def_t *gpiox_base_addr, uint8_t pin, uint8_t value)
  */
 void gpio_write_port(gpio_reg_def_t *gpiox_base_addr, uint16_t value)
 {
-
+  gpiox_base_addr->ODR = value;
 }
 
 /*****************************************************************
@@ -185,7 +251,7 @@ void gpio_write_port(gpio_reg_def_t *gpiox_base_addr, uint16_t value)
  */
 void gpio_toggle_pin(gpio_reg_def_t *gpiox_base_addr, uint8_t pin)
 {
-
+  gpiox_base_addr->ODR ^= (1 << pin);
 }
 
 /*****************************************************************
