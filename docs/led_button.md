@@ -1,0 +1,2 @@
+ When a button is pressed it will toggle the LED as expected but only when there is a small implemented.
+ This is because if there is no delay implemented there are high chances where the button will debounce (not a stable input will switch between high and low). Due to this the LED wont toggle perfectly. But when a delay is implemented it gives the button some time to stabilize its input.
