@@ -106,6 +106,26 @@ typedef struct
    volatile uint32_t RCC_DCKCFGR;    /* Address offset 0x8C*/
 } rcc_reg_def_t;
 
+/* EXTI peripheral register def*/
+typedef struct
+{
+  volatile uint32_t IMR;
+  volatile uint32_t EMR;
+  volatile uint32_t RTSR;
+  volatile uint32_t FTSR;
+  volatile uint32_t SWIER;
+  volatile uint32_t PR;
+} exti_reg_def_t;
+
+typedef struct 
+{
+   volatile uint32_t MEMRMP;
+   volatile uint32_t PMC;
+   volatile uint32_t EXTICR[4];
+   volatile uint32_t CMPCR; 
+} syscfg_reg_def_t;
+
+
 /* peripheral definitions of the base addresses*/
 
 #define GPIOA  ((gpio_reg_def_t*)GPIOA_BASEADDR)
@@ -115,7 +135,11 @@ typedef struct
 #define GPIOE  ((gpio_reg_def_t*)GPIOE_BASEADDR)
 #define GPIOH  ((gpio_reg_def_t*)GPIOH_BASEADDR)
 
-#define RCC    ((rcc_reg_def_t*)RCC_BASEADDR)
+#define RCC        ((rcc_reg_def_t*)RCC_BASEADDR)
+
+#define EXTI       ((exti_reg_def_t*)EXTI_BASEADDR)
+
+#define SYSCFG     ((syscfg_reg_def_t*)SYSCFG_BASEADDR)
 
 /* Clock Enable Macros for GPIOx peripherals*/
 
@@ -146,6 +170,10 @@ typedef struct
 #define USART2_PCLK_EN()      ( RCC->RCC_APB1ENR |= (1 << 17) )
 #define USART6_PCLK_EN()      ( RCC->RCC_APB2ENR |= (1 << 5) )
 
+/* Clock enable macro for SYSCFG*/
+#define SYSCFG_PCLK_EN()      ( RCC->RCC_APB2ENR |= (1 << 14) )
+
+
 /* Clock Disable Macros for GPIOx peripherals*/
 
 #define GPIOA_PCLK_DI()      ( RCC->RCC_AHB1ENR &= ~(1 << 0) )
@@ -174,6 +202,9 @@ typedef struct
 #define USART2_PCLK_DI()      ( RCC->RCC_APB1ENR &= ~(1 << 17) )
 #define USART6_PCLK_DI()      ( RCC->RCC_APB2ENR &= ~(1 << 5) )
 
+/* Clock disable macro for SYSCFG*/
+#define SYSCFG_PCLK_DI()      ( RCC->RCC_APB2ENR &= ~(1 << 14) )
+
 /* set the reset flags to reset the peripherals and then clear them again.*/
 
 /* reset Macros for GPIOx peripherals*/
@@ -201,9 +232,19 @@ typedef struct
 
 /* reset Macros for USARTx peripherals*/
 
-#define USART1_REG_RESET()      do {( RCC->RCC_APB1RSTR |= (1 << 4) ); ( RCC->RCC_APB1RSTR &= ~(1 << 4) ) } while(0)
+#define USART1_REG_RESET()      do {( RCC->RCC_APB2RSTR |= (1 << 4) ); ( RCC->RCC_APB2RSTR &= ~(1 << 4) ) } while(0)
 #define USART2_REG_RESET()      do {( RCC->RCC_APB1RSTR |= (1 << 17) ); ( RCC->RCC_APB1RSTR &= ~(1 << 17) ) } while(0)
-#define USART6_REG_RESET()      do {( RCC->RCC_APB1RSTR |= (1 << 5) ); ( RCC->RCC_APB1RSTR &= ~(1 << 5) ) } while(0)
+#define USART6_REG_RESET()      do {( RCC->RCC_APB2RSTR |= (1 << 5) ); ( RCC->RCC_APB2RSTR &= ~(1 << 5) ) } while(0)
+
+/* reset macro for SYSCFG*/
+#define SYSCFG_REG_RESET()      do {( RCC->RCC_APB2RSTR |= (1 << 14) ); ( RCC->RCC_APB2RSTR &= ~(1 << 14) ) } while(0)
+
+#define GPIO_PORT_CODE(x)      ( (x == GPIOA) ? 0 : \
+                                 (x == GPIOB) ? 1 : \
+                                 (x == GPIOC) ? 2 : \
+                                 (x == GPIOD) ? 3 : \
+                                 (x == GPIOE) ? 4 : \
+                                 (x == GPIOH) ? 7 : 0)
 
 #define ENABLE           1
 #define DISABLE          0
