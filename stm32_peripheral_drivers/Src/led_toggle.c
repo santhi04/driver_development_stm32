@@ -21,8 +21,8 @@ int main(void)
     gpio_led.gpiox_base_addr = GPIOA;
     gpio_led.gpio_pin_config.gpiox_pin_number = GPIO_PIN_NO_5;
     gpio_led.gpio_pin_config.gpiox_pin_mode = GPIO_MODE_OUTPUT;
-    gpio_led.gpio_pin_config.gpiox_pin_optype = GPIO_OP_TYPE_PP;
-    gpio_led.gpio_pin_config.gpiox_pin_pupd_ctrl = GPIO_NO_PU_PD;
+    gpio_led.gpio_pin_config.gpiox_pin_optype = GPIO_OP_TYPE_OD; //open drain configuration
+    gpio_led.gpio_pin_config.gpiox_pin_pupd_ctrl = GPIO_PULL_UP;
     gpio_led.gpio_pin_config.gpiox_pin_speed = GPIO_SPEED_FAST;
 
     gpio_pclk_ctrl(GPIOA, ENABLE);
