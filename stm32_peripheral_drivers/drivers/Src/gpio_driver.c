@@ -82,6 +82,38 @@ void gpio_init(gpiox_handle_t *gpiox_handle)
   else
   {
     // interrupt pin modes.
+    if(gpiox_handle->gpio_pin_config.gpiox_pin_mode == GPIO_MODE_IT_FT)
+    {
+      // configure the FTSR.
+      EXTI->FTSR |= ( 1 <<  gpiox_handle->gpio_pin_config.gpiox_pin_number);
+      // clear the RTSR config
+      EXTI->RTSR &= ~( 1 <<  gpiox_handle->gpio_pin_config.gpiox_pin_number);
+    }
+    else if(gpiox_handle->gpio_pin_config.gpiox_pin_mode == GPIO_MODE_IT_RT)
+    {
+      // configure the RTSR.
+      EXTI->RTSR |= ( 1 <<  gpiox_handle->gpio_pin_config.gpiox_pin_number);
+      // clear the FTSR config
+      EXTI->FTSR &= ~( 1 <<  gpiox_handle->gpio_pin_config.gpiox_pin_number);
+    }
+    else if(gpiox_handle->gpio_pin_config.gpiox_pin_mode == GPIO_MODE_IT_RFT)
+    {
+      // configure the both FTSR and RTSR.
+       EXTI->RTSR |= ( 1 <<  gpiox_handle->gpio_pin_config.gpiox_pin_number);
+       EXTI->FTSR |= ( 1 <<  gpiox_handle->gpio_pin_config.gpiox_pin_number);
+    }
+
+    /* configure the GPIO port selection in SYSCFG_EXTICR */
+    uint8_t exti_reg = gpiox_handle->gpio_pin_config.gpiox_pin_number / 4;
+    uint8_t exti_reg_bit_pos = gpiox_handle->gpio_pin_config.gpiox_pin_number % 4;
+
+    SYSCFG_PCLK_EN(); // enabke the SYSCFG peripheral clock
+
+    uint8_t portcode = GPIO_PORT_CODE(gpiox_handle->gpiox_base_addr);
+    SYSCFG->EXTICR[exti_reg] = portcode << exti_reg_bit_pos * 4;
+
+    /* enable the exti delivery using IMR*/
+    EXTI->IMR = ( 1 <<  gpiox_handle->gpio_pin_config.gpiox_pin_number);
   }
 
   pin_config_position = 0;//clear the pin config position.
@@ -107,11 +139,11 @@ void gpio_init(gpiox_handle_t *gpiox_handle)
   /* configure the alternate functionality of the pin*/
   if(gpiox_handle->gpio_pin_config.gpiox_pin_mode <= GPIO_MODE_ALTFUN)
   {
-    uint32_t afr_pos, afr_bit_pos = 0;
-    afr_pos = gpiox_handle->gpio_pin_config.gpiox_pin_number / 8;
-    afr_bit_pos = gpiox_handle->gpio_pin_config.gpiox_pin_number % 8;
-    gpiox_handle->gpiox_base_addr->AFR[afr_pos] &= ~(0xF << (4 * afr_bit_pos));
-    gpiox_handle->gpiox_base_addr->AFR[afr_pos] |= gpiox_handle->gpio_pin_config.gpiox_pin_altfun_mode << (4 * afr_bit_pos);
+    uint32_t afr_reg_pos, afr_reg_bit_pos = 0;
+    afr_reg_pos = gpiox_handle->gpio_pin_config.gpiox_pin_number / 8;
+    afr_reg_bit_pos = gpiox_handle->gpio_pin_config.gpiox_pin_number % 8;
+    gpiox_handle->gpiox_base_addr->AFR[afr_reg_pos] &= ~(0xF << (4 * afr_reg_bit_pos));
+    gpiox_handle->gpiox_base_addr->AFR[afr_reg_pos] |= gpiox_handle->gpio_pin_config.gpiox_pin_altfun_mode << (4 * afr_reg_bit_pos);
   }
 
 }
