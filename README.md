@@ -6,7 +6,11 @@ and the clock enable and disable macros of the peripherals.
 
 gpio_driver.h : Contains the macros required for the configuration of the GPIO port and the APIs.
 
-gpio_driver.c : Implementation of the APIs for a GPIO port which covers initialization, deinitialization, read from a pin and port, write to a pin
+gpio_driver.c : Implementation of the APIs for a GPIO port which covers initialization(normal and interrupt modes), deinitialization, read from a pin and port, write to a , interrupt configuration and handling.
 and port and toggle the specified pin number.
 
 led_toggle.c : Logic to toggle a specified pin using the developed APIs.
+               
+               Toggle an LED in open drain configuration with internal pull up enaled.
+
+led_button.c : Toggle and LED when a button is pressed. Implement some delay to handle debouncing.
