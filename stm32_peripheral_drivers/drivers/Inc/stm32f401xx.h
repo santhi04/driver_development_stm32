@@ -11,6 +11,27 @@
 #define INC_STM32F401XX_H_
 
 
+/***************************** PROCESSOR specific details ****************************/
+/* ARM Cortex M4 ISER registerS addresses*/
+
+#define NVIC_ISER0      ((volatile uint_32*)0XE000E100)
+#define NVIC_ISER1      ((volatile uint_32*)0XE000E104)
+#define NVIC_ISER2      ((volatile uint_32*)0XE000E108)
+#define NVIC_ISER3      ((volatile uint_32*)0XE000E10C)
+
+/* ARM Cortex M4 ICER registerS addresses*/
+
+#define NVIC_ICER0      ((volatile uint_32*)0XE000E180)
+#define NVIC_ICER1      ((volatile uint_32*)0XE000E184)
+#define NVIC_ICER2      ((volatile uint_32*)0XE000E188)
+#define NVIC_ICER3      ((volatile uint_32*)0XE000E18C)
+
+/* ARM Cortex M4 priority register base address*/
+#define NVIC_PR_BASEADDR     ((volatile uint_32*)0XE000E400)
+
+/***************************** MCU specific details ****************************/
+
+#define NO_PR_BITS_IMPLEMENTED   4
 /* base addresses of Flash, SRAM and ROM memories */
 
 #define FLASH_BASEADDR  0x08000000U
