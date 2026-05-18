@@ -14,20 +14,20 @@
 /***************************** PROCESSOR specific details ****************************/
 /* ARM Cortex M4 ISER registerS addresses*/
 
-#define NVIC_ISER0      ((volatile uint_32*)0XE000E100)
-#define NVIC_ISER1      ((volatile uint_32*)0XE000E104)
-#define NVIC_ISER2      ((volatile uint_32*)0XE000E108)
-#define NVIC_ISER3      ((volatile uint_32*)0XE000E10C)
+#define NVIC_ISER0      ((volatile uint32_t*)0XE000E100)
+#define NVIC_ISER1      ((volatile uint32_t*)0XE000E104)
+#define NVIC_ISER2      ((volatile uint32_t*)0XE000E108)
+#define NVIC_ISER3      ((volatile uint32_t*)0XE000E10C)
 
 /* ARM Cortex M4 ICER registerS addresses*/
 
-#define NVIC_ICER0      ((volatile uint_32*)0XE000E180)
-#define NVIC_ICER1      ((volatile uint_32*)0XE000E184)
-#define NVIC_ICER2      ((volatile uint_32*)0XE000E188)
-#define NVIC_ICER3      ((volatile uint_32*)0XE000E18C)
+#define NVIC_ICER0      ((volatile uint32_t*)0XE000E180)
+#define NVIC_ICER1      ((volatile uint32_t*)0XE000E184)
+#define NVIC_ICER2      ((volatile uint32_t*)0XE000E188)
+#define NVIC_ICER3      ((volatile uint32_t*)0XE000E18C)
 
 /* ARM Cortex M4 priority register base address*/
-#define NVIC_PR_BASEADDR     ((volatile uint_32*)0XE000E400)
+#define NVIC_PR_BASEADDR     ((volatile uint32_t*)0XE000E400)
 
 /***************************** MCU specific details ****************************/
 
@@ -276,6 +276,24 @@ typedef struct
 #define IRQ_NO_EXTI4         10
 #define IRQ_NO_EXTI9_5       23
 #define IRQ_NO_EXTI15_10     40
+
+/* priority macros for interrupts*/
+#define NVIC_IRQ_PRI0        0
+#define NVIC_IRQ_PRI1        1
+#define NVIC_IRQ_PRI2        2
+#define NVIC_IRQ_PRI3        3
+#define NVIC_IRQ_PRI4        4
+#define NVIC_IRQ_PRI5        5
+#define NVIC_IRQ_PRI6        6
+#define NVIC_IRQ_PRI7        7
+#define NVIC_IRQ_PRI8        8
+#define NVIC_IRQ_PRI9        9
+#define NVIC_IRQ_PRI10       10
+#define NVIC_IRQ_PRI11       11
+#define NVIC_IRQ_PRI12       12
+#define NVIC_IRQ_PRI13       13
+#define NVIC_IRQ_PRI14       14
+#define NVIC_IRQ_PRI15       15
 
 #define ENABLE           1
 #define DISABLE          0
