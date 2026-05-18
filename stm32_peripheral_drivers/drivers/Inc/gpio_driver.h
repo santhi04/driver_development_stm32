@@ -104,7 +104,8 @@ void gpio_write_port(gpio_reg_def_t *gpiox_base_addr, uint16_t value);
 void gpio_toggle_pin(gpio_reg_def_t *gpiox_base_addr, uint8_t pin);
 
 /* IRQ config and IRQ handle*/
-void gpio_irq_config(uint8_t irq_number, uint8_t irq_priority, uint8_t enordi);
+void gpio_irq_config(uint8_t irq_number, uint8_t enordi);
+void gpio_irq_priority_config(uint8_t irq_number, uint32_t irq_priority);
 void gpio_irq_handle(uint8_t pin_number);
 
 

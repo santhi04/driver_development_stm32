@@ -131,9 +131,12 @@ void gpio_init(gpiox_handle_t *gpiox_handle)
   pin_config_position = 0; //clear the pin config position.
 
   /* configure the out type of the pin*/
-  pin_config_position = gpiox_handle->gpio_pin_config.gpiox_pin_optype << ( gpiox_handle->gpio_pin_config.gpiox_pin_number);
-  gpiox_handle->gpiox_base_addr->OTYPER &= ~(1 << gpiox_handle->gpio_pin_config.gpiox_pin_number);
-  gpiox_handle->gpiox_base_addr->OTYPER |= pin_config_position;
+  if(gpiox_handle->gpio_pin_config.gpiox_pin_mode == GPIO_MODE_OUTPUT)
+  {
+	  pin_config_position = gpiox_handle->gpio_pin_config.gpiox_pin_optype << ( gpiox_handle->gpio_pin_config.gpiox_pin_number);
+	  gpiox_handle->gpiox_base_addr->OTYPER &= ~(1 << gpiox_handle->gpio_pin_config.gpiox_pin_number);
+	  gpiox_handle->gpiox_base_addr->OTYPER |= pin_config_position;
+  }
   pin_config_position = 0; //clear the pin config position.
 
   /* configure the alternate functionality of the pin*/
@@ -292,7 +295,6 @@ void gpio_toggle_pin(gpio_reg_def_t *gpiox_base_addr, uint8_t pin)
  * @brief           - This function configures the interrupt 
  * 
  * @param[in]       - interrupt number
- * @param[in]       - interrupt priority
  * @param[in]       - ENABLE or DISABLE macros
  * 
  * @return          - none
@@ -301,9 +303,73 @@ void gpio_toggle_pin(gpio_reg_def_t *gpiox_base_addr, uint8_t pin)
  * 
  * 
  */
-void gpio_irq_config(uint8_t irq_number, uint8_t irq_priority, uint8_t enordi)
+void gpio_irq_config(uint8_t irq_number, uint8_t enordi)
 {
+   if(enordi == ENABLE)
+   {
+     if(irq_number <= 31)
+     {
+       // configure ISER0;
+       *NVIC_ISER0 |= ( 1 << irq_number);
+     }
+     else if((irq_number > 31) && (irq_number < 64))
+     {
+       // configure ISER1;
+       *NVIC_ISER1 |= ( 1 << irq_number % 32);
+     }
+     else if((irq_number >= 64 ) && (irq_number < 96))
+     {
+       // configure ISER2;
+       *NVIC_ISER2 |= ( 1 << irq_number % 64);
+     }
+   }
+   else
+   {
+     if(irq_number <= 31)
+     {
+       // configure ICER0;
+       *NVIC_ICER0 |= ( 1 << irq_number);
+     }
+     else if((irq_number > 31) && (irq_number < 64))
+     {
+       // configure ICER1;
+       *NVIC_ICER1 |= ( 1 << irq_number % 32);
+     }
+     else if((irq_number >= 64 ) && (irq_number < 96))
+     {
+       // configure ICER2;
+       *NVIC_ICER2 |= ( 1 << irq_number % 64);
+     }
+   }
 
+}
+
+
+/*****************************************************************
+ * @fn              - gpio_irq_priority_config
+ * 
+ * @brief           - This function handles interrupt priority configuration
+ * 
+ * @param[in]       - interrupt number
+ * @param[in]       - interrupt priority
+ * 
+ * @return          - none
+ * 
+ * @note            - none
+ * 
+ * 
+ */
+void gpio_irq_priority_config(uint8_t irq_number, uint32_t irq_priority)
+{
+   uint8_t ipr_reg = irq_number / 4;
+   uint8_t ipr_reg_bit_pos = irq_number % 4;
+
+   /* Some of the priority bits are aready implemeted specific to MCU
+      Shift the priority bits implemented accordingly.*/
+   uint8_t shift_pos = (8 * ipr_reg_bit_pos) + (8 - NO_PR_BITS_IMPLEMENTED);
+
+   *(NVIC_PR_BASEADDR + ipr_reg ) |= (irq_priority << shift_pos);
+    
 }
 
 /*****************************************************************
@@ -321,5 +387,10 @@ void gpio_irq_config(uint8_t irq_number, uint8_t irq_priority, uint8_t enordi)
  */
 void gpio_irq_handle(uint8_t pin_number)
 {
-
+   // clear the exti pr register of the pin number
+   if(EXTI->PR & (1 << pin_number))
+   {
+     // clear the pending register bit
+     EXTI->PR |= (1 << pin_number);
+   }
 }
